@@ -1,6 +1,3 @@
-import pygame
-
-
 def check_mas(a, n):
 
   count = 1
@@ -11,7 +8,7 @@ def check_mas(a, n):
 
     if a[i] == a[i - 1] and a[i]:
 
-      if a[i] != '/':
+      if a[i] != '#':
 
         count += 1
 
@@ -46,7 +43,7 @@ def count(n, a, d):
 
     for j in range(n):
 
-      if a.map[i][j] == '/':
+      if a.map[i][j] == '#':
 
         if d % 2 == 1:
 
@@ -58,7 +55,7 @@ def count(n, a, d):
 
           ans[1] += b[1]
 
-          a.map[i][j] = '/'
+          a.map[i][j] = '#'
 
         else:
 
@@ -70,7 +67,7 @@ def count(n, a, d):
 
           ans[1] += b[1]
 
-          a.map[i][j] = '/'
+          a.map[i][j] = '#'
 
   return ans
 
@@ -84,7 +81,7 @@ class Board():
 
     self.k = k
 
-    self.map = [['/'] * n for i in range(n)]
+    self.map = [['#'] * n for i in range(n)]
 
 
   def check(self):
@@ -180,7 +177,7 @@ class Board():
 
   def clear(self):
 
-    self.map = [['/'] * n for i in range(n)]
+    self.map = [['#'] * n for i in range(n)]
 
        
 
@@ -190,7 +187,7 @@ class Board():
 
       for j in range(self.n):
 
-        if self.map[i][j] == '/':
+        if self.map[i][j] == '#':
 
           return False
 
@@ -205,7 +202,7 @@ class Board():
 
       for j in range(self.n):
 
-        if self.map[i][j] == '/':
+        if self.map[i][j] == '#':
 
           self.map[i][j] = 'o'
 
@@ -225,162 +222,47 @@ class Board():
 
             ansf = [ans[1], ans[0], i, j]
 
-          self.map[i][j] ='/'
+          self.map[i][j] ='#'
 
     self.map[ansf[2]][ansf[3]] = 'o'
 
      
 
-     
-
-def draw():
-
-  pygame.draw.rect(screen, (255, 255, 255), (0, 0, n* 41 + n, n * 41 + n))
-
-  if not a.check() and not a.is_draw():
-
-    for i in range(n + 2):
-
-      pygame.draw.line(screen, (0, 0, 0), (i * 41 + i, 0), (i * 41 + i, n * 41 + n - 1), 1)
-
-      pygame.draw.line(screen, (0, 0, 0), (0, i * 41 + i), (n * 41 + n - 1, i * 41 + i), 1)
-
-      for i in range(n):
-
-        for j in range(n):
-
-          if a.map[i][j] == 'x':
-
-            pygame.draw.line(screen, (255, 0, 0), (i * 42 + 1, j * 42 + 1), ((i + 1) * 42 - 1, (j + 1) * 42 - 1), 2)
-
-            pygame.draw.line(screen, (255, 0, 0), (i * 42 + 1, (j + 1) * 42 - 1), ((i + 1) * 42 - 1, j * 42 + 1), 2)
-
-          if a.map[i][j] == 'o':
-
-            pygame.draw.circle(screen, (0, 0, 255), (i * 42 + 21, j * 42 + 21), 20, 2)
-
-  else:
-
-    if move % 2 == 1 and a.check():
-
-      f1 = pygame.font.Font(None, 30)
-
-      text1 = f1.render('Победили X', 1, (0, 0, 0))
-
-      screen.blit(text1, (0, 0))
-
-      f2 = pygame.font.Font(None, 18)
-
-      text2 = f2.render('для перезапуска', 1, (0, 0, 0))
-
-      screen.blit(text2, (0, 50))
-
-      f3 = pygame.font.Font(None, 18)
-
-      text3 = f2.render('нажмите ПКМ', 1, (0, 0, 0))
-
-      screen.blit(text3, (0, 70))
-
-    elif move % 2 == 0 and a.check():
-
-      f1 = pygame.font.Font(None, 30)
-
-      text1 = f1.render('Победили O', 1, (0, 0, 0))
-
-      screen.blit(text1, (0, 0))
-
-      f2 = pygame.font.Font(None, 18)
-
-      text2 = f2.render('для перезапуска', 1, (0, 0, 0))
-
-      screen.blit(text2, (0, 50))
-
-      f3 = pygame.font.Font(None, 18)
-
-      text3 = f2.render('нажмите ПКМ', 1, (0, 0, 0))
-
-      screen.blit(text3, (0, 70))
-
-    elif a.is_draw():
-
-      f1 = pygame.font.Font(None, 30)
-
-      text1 = f1.render('Ничья', 1, (0, 0, 0))
-
-      screen.blit(text1, (0, 0))
-
-      f2 = pygame.font.Font(None, 18)
-
-      text2 = f2.render('для перезапуска', 1, (0, 0, 0))
-
-      screen.blit(text2, (0, 50))
-
-      f3 = pygame.font.Font(None, 18)
-
-      text3 = f2.render('нажмите ПКМ', 1, (0, 0, 0))
-
-      screen.blit(text3, (0, 70))
-
-
-
-pygame.init()
-
-n, k = map(int, input('Введите n и k').split())
-
+n, k = map(int, input('Введите n и k ').split())
 a = Board(n, k)
 
-size = (n * 41 + n, n * 41 + n)
-
-screen = pygame.display.set_mode(size)
-
-
-clock = pygame.time.Clock()
-
 running = True
-
 move = 0
-
 while running:
-
-  for event in pygame.event.get():
-
-    if event.type == pygame.QUIT:
-
-      running = False
-
-    if event.type == pygame.MOUSEBUTTONDOWN:
-
-      if event.button == 1 and not a.check() and not a.is_draw():
-
-        pos = pygame.mouse.get_pos()
-
-        if a.map[pos[0] // 42][pos[1] // 42] == '/':
-
-           
-
-          if move % 2 == 0:
-
-            a.map[pos[0] // 42][pos[1] // 42] = 'x'
-
-          move += 1
-
-      if event.button == 3 and (a.check() or a.is_draw()):
-
-        a.clear()
-
-        move = 0
-
-  if move % 2 == 1 and not a.check() and not a.is_draw():
-
-    a.make_move()
-
+  for i in a.map:
+    print(*i, sep='')
+  if move % 2 == 0:
+    x, y = map(int, input('Введите координаты вашего хода итерация с 1, пожалуйста вводите корректные данные ').split())
+    a.map[x - 1][y - 1] = 'x'
     move += 1
-
-  draw()
-
-  clock.tick(60)
-
-  pygame.display.flip()
-
-pygame.quit()
+  else:
+    a.make_move()
+    move += 1
+  if a.check():
+    if move % 2 == 0:
+      print('вы выйграл. для перезапуска напишите заново')
+      c = ''
+      while c != 'заново':
+        c = input()
+      a.clear()
+      move = 0
+    else:
+      print('Какая жалость, вы проиграли. для перезапуска напишите заново')
+      c = ''
+      while c != 'заново':
+        c = input()
+      a.clear()
+      move = 0
+  elif a.is_draw():
+      print('Ничья. для перезапуска напишите заново')
+      c = ''
+      while c != 'заново':
+        c = input()
+      a.clear()
+      move = 0
 
