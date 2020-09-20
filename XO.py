@@ -226,43 +226,162 @@ class Board():
 
     self.map[ansf[2]][ansf[3]] = 'o'
 
+
+  def make_move1(self):
+
+      ansf = [1e9, 0, 0, 0]
+
+      for i in range(self.n):
+    
+        for j in range(self.n):
+  
+          if self.map[i][j] == '#':
+  
+            self.map[i][j] = 'o'
+  
+            if n <= 3:
+  
+              ans = count(n, self, 5)
+  
+            else:
+  
+              ans = count(n, self, 3)
+  
+            if ans[1] < ansf[0]:
+
+              ansf = [ans[1], ans[0], i, j]
+  
+            if ans[1] == ansf[0] and ans[0] > ansf[1]:
+  
+              ansf = [ans[1], ans[0], i, j]
+  
+            self.map[i][j] ='#'
+
+      self.map[ansf[2]][ansf[3]] = 'x'
+
      
 
 n, k = map(int, input('Введите n и k ').split())
 a = Board(n, k)
-
+type = int(input('введите тип игры 1 - сам собой, 2 - вы против ИИ, 3 - ИИ против ИИ '))
 running = True
 move = 0
-while running:
-  for i in a.map:
-    print(*i, sep='')
-  if move % 2 == 0:
-    x, y = map(int, input('Введите координаты вашего хода итерация с 1, пожалуйста вводите корректные данные ').split())
-    a.map[x - 1][y - 1] = 'x'
-    move += 1
-  else:
-    a.make_move()
-    move += 1
-  if a.check():
+if type == 2:  
+  while running:
+    for i in a.map:
+      print(*i, sep='')
     if move % 2 == 0:
-      print('вы выйграл. для перезапуска напишите заново')
-      c = ''
-      while c != 'заново':
-        c = input()
-      a.clear()
-      move = 0
+      x, y = map(int, input('Введите координаты вашего хода итерация с 1, пожалуйста вводите корректные данные ').split())
+      a.map[x - 1][y - 1] = 'x'
+      move += 1
     else:
-      print('Какая жалость, вы проиграли. для перезапуска напишите заново')
-      c = ''
-      while c != 'заново':
-        c = input()
-      a.clear()
-      move = 0
-  elif a.is_draw():
-      print('Ничья. для перезапуска напишите заново')
-      c = ''
-      while c != 'заново':
-        c = input()
-      a.clear()
-      move = 0
+      a.make_move()
+      move += 1
+    if a.check():
+      if move % 2 == 0:
+        print('вы выиграл. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+      else:
+        print('Какая жалость, вы проиграли. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+    elif a.is_draw():
+        print('Ничья. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+if type == 1:
+  while running:
+    for i in a.map:
+      print(*i, sep='')
+    if move % 2 == 0:
+      x, y = map(int, input('Введите координаты вашего хода итерация с 1, пожалуйста вводите корректные данные ').split())
+      a.map[x - 1][y - 1] = 'x'
+      move += 1
+    else:
+      x, y = map(int, input('Введите координаты вашего хода итерация с 1, пожалуйста вводите корректные данные ').split())
+      a.map[x - 1][y - 1] = 'o'
+      move += 1
+    if a.check():
+      if move % 2 == 0:
+        print('вы выиграл. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+      else:
+        print('Какая жалость, вы выиграли сам у себя. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+    elif a.is_draw():
+        print('Ничья. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+if type == 3:
+  print('Смотрите и наслаждайтесь. Возможно это будет очень быстро')
+  while running:
+    for i in a.map:
+      print(*i, sep='')
+    if move % 2 == 0:
+      a.make_move1()
+      move += 1
+    else:
+      a.make_move()
+      move += 1
+    if a.check():
+      if move % 2 == 0:
+        print('Первый выиграл. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+      else:
+        print('Второй выиграл. для перезапуска напишите заново')
+        for i in a.map:
+          print(*i, sep='')
+        c = ''
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
+    elif a.is_draw():
+        print('Ничья. для перезапуска напишите заново')
+        c = ''
+        for i in a.map:
+          print(*i, sep='')
+        while c != 'заново':
+          c = input()
+        a.clear()
+        move = 0
 
